@@ -1,0 +1,78 @@
+\documentclass[14pt]{article}
+\usepackage[14pt]{extsizes}
+\usepackage{url}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{gastex}
+\usepackage[dvips]{graphicx}
+\usepackage[ruled,section]{algorithm}
+\usepackage[noend]{algorithmic}
+\usepackage[all]{xy}
+
+\usepackage{pgf}
+\usepackage{tikz}
+
+
+\usepackage{setspace}
+\setstretch{1.15}
+\onehalfspacing
+
+
+\usepackage{listings}
+\lstloadlanguages{XML,Java}
+\lstset{language=Java,
+		extendedchars=true,
+		escapechar=|,
+		frame=tb,
+		commentstyle=\itshape,
+		stringstyle=\bfseries,
+		basicstyle=\ttfamily\scriptsize,
+		breaklines=true}
+\renewcommand{\lstlistingname}{Листинг}
+\usepackage{geometry}
+\geometry{top=2cm}
+\geometry{bottom=2.5cm}
+\geometry{left=3cm}
+\geometry{right=2cm}
+
+
+\newtheorem{theorem}{Теорема}
+\newtheorem{problem}{Задача}[section]
+\newtheorem{solution}{Решение}[section]
+\newtheorem{example}{Пример}[section]
+\newtheorem{claim}{Утверждение}[section]
+\newtheorem{corollary}{Следствие}[section]
+\newtheorem{proposition}{Предложение}[section]
+
+\floatname{algorithm}{Алгоритм}
+\renewcommand{\algorithmicrequire}{\textbf{Вход:}}
+\renewcommand{\algorithmicensure}{\textbf{Выход:}}
+\renewcommand{\algorithmicreturn}{\textbf{Вернуть}}
+
+\newcommand{\slp}[1]{\mathbb{#1}}
+
+\newcommand{\tuple}[4]{
+    #1_{#2}, #1_{#3}, \dots, #1_{#4}
+}
+
+\newcommand{\concat}[4]{
+    #1_{#2} \cdot #1_{#3} \cdots #1_{#4}
+}
+
+\newenvironment{refTheorem}[2][Теорема]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+
+\begin{document}
+
+\tableofcontents
+
+\newpage
+
+\input Motivation
+
+\end{document}
