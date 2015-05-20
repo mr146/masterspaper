@@ -14,8 +14,8 @@
 \begin{lstlisting}[language=csh,caption={Описание интерфейса}]
 public interface IRemoteLockCreator
 {
-	IRemoteLock GetLock(string lockId);
-	bool TryGetLock(string lockId, out IRemoteLock remoteLock);
+	IRemoteLock GetLock(string lockId); // обязательная блокировка
+	bool TryGetLock(string lockId, out IRemoteLock remoteLock); // мягкая блокировка
 }
 
 public interface IRemoteLock : IDisposable
@@ -25,12 +25,12 @@ public interface IRemoteLock : IDisposable
 }
 \end{lstlisting}
 
-Здесь lockId~--- строковый идентификатор ресурса, доступ к которому необходимо получить, GetLock~--- метод, отвечающий за обязательную блокировку, TryGetLock~--- метод, отвечающий за мягкую блокировку. Метод Dispose в реализацях интерфейса IRemoteLock должен освобождать блокировку, в таком случае пользоваться сервисом блокировок будет достаточно удобно с помощью конструкции using:
+Здесь lockId~--- строковый идентификатор ресурса, доступ к которому необходимо получить. Метод Dispose в реализацях интерфейса IRemoteLock должен освобождать блокировку, в таком случае пользоваться сервисом блокировок будет достаточно удобно с помощью конструкции using:
 
 \begin{lstlisting}[language=csh,caption={Использование конструкции using}]
 	...
 	using(remoteLockCreator.GetLock(lockId))
 	{
-		...
+		// действия в блокировке
 	}
 \end{lstlisting}
