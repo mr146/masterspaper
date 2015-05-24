@@ -12,7 +12,7 @@
 Опишем данные требования на языке C\#:
 
 \begin{lstlisting}[language=csh,caption={Описание интерфейса}]
-public interface IRemoteLockCreator
+public interface IRemoteLocker
 {
 	IRemoteLock GetLock(string lockId); // обязательная блокировка
 	bool TryGetLock(string lockId, out IRemoteLock remoteLock); // мягкая блокировка
@@ -20,8 +20,8 @@ public interface IRemoteLockCreator
 
 public interface IRemoteLock : IDisposable
 {
-	public string ThreadId { get; }
-	public string LockId { get; }
+	public string ThreadId { get; } // идентификатор потока
+	public string LockId { get; } // идентификатор ресурса
 }
 \end{lstlisting}
 
@@ -29,7 +29,7 @@ public interface IRemoteLock : IDisposable
 
 \begin{lstlisting}[language=csh,caption={Использование конструкции using}]
 	...
-	using(remoteLockCreator.GetLock(lockId))
+	using(remoteLocker.GetLock(lockId))
 	{
 		// действия в блокировке
 	}
