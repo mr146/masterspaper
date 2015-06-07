@@ -1,0 +1,123 @@
+%% LaTeX Beamer presentation template (requires beamer package)
+%% see http://latex-beamer.sourceforge.net/
+%% idea contributed by H. Turgut Uyar
+%% template based on a template by Till Tantau
+%% this template is still evolving - it might differ in future releases!
+
+\documentclass[cp1251]{beamer}
+
+\mode<presentation>
+{
+\usetheme{Darmstadt}
+\setbeamercovered{transparent}
+} 
+
+\usepackage[english,russian]{babel}
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage{multicol}
+\usepackage{listings}
+\lstloadlanguages{XML,Java}
+\lstset{language=Java,
+		extendedchars=true,
+		escapechar=|,
+		frame=tb,
+		commentstyle=\itshape,
+		stringstyle=\bfseries,
+		basicstyle=\ttfamily\scriptsize,
+		breaklines=true}
+
+
+\title{Реализация алгоритма распределенной блокировки на основе БД Cassandra}
+
+\author{Денис Мухаметьянов}
+
+\date{9 июня 2015}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section{Блокировка}
+
+\begin{frame}[fragile]
+	\begin{block}{Снятие денег с банковского счета}
+	\pause
+		\begin{lstlisting}[language=Java]
+   Узнать текущий баланс
+   Если баланс больше или равен запрашиваемой сумме:
+   	Уменьшить баланс на запрашиваемую сумму
+   	Сообщить об успешном проведении операции
+   Иначе:
+   	Сообщить о том, что средств недостаточно
+		\end{lstlisting}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+	\begin{block}{Выполнение функции двумя потоками одновременно}
+		\begin{itemize}
+			\pause
+			\item На счете 200 у.е., два потока одновременно хотят снять по 150 у.е. каждый
+			\pause
+			\item Оба потока одновременно запросят состояние счета
+			\pause
+			\item Каждый успешно снимет по 150 у.е
+			\pause
+			\item Итоговый баланс~--- -100 у.е.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+	\begin{block}{Механизм блокировки}
+		\begin{itemize}
+			\pause
+			\item Предоставление исключительного доступа к разделяемому ресурсу
+			\pause
+			\item Реализован в большинстве современных языков программирования
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+	\begin{block}{Снятие денег с банковского счета с использованием механизма блокировки}
+	\pause
+		\begin{lstlisting}[language=Java]
+   Взять блокировку на банковский счет
+   Узнать текущий баланс
+   Если баланс больше или равен запрашиваемой сумме:
+   	Уменьшить баланс на запрашиваемую сумму
+   	Освободить блокировку на банковский счет
+   	Сообщить об успешном проведении операции
+   Иначе:
+   	Освободить блокировку на банковский счет
+   	Сообщить о том, что средств недостаточно
+		\end{lstlisting}
+	\end{block}
+\end{frame}
+
+\section{Распределенная блокировка}
+
+\begin{frame}[fragile]
+	\begin{block}{Отказоустойчивые сервисы}
+	\pause
+		\begin{itemize}
+			\item Распределенная архитектура
+			\pause
+			\item Использование распределенных баз данных
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+	\begin{block}{}
+	\pause
+		\begin{center}
+			Необходим механизм предоставления исключительного доступа с разных серверов
+		\end{center}
+	\end{block}
+\end{frame}
+\end{document}
