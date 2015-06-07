@@ -120,4 +120,100 @@
 		\end{center}
 	\end{block}
 \end{frame}
+
+\begin{frame}[fragile]
+	\begin{block}{Готовые решения}
+	\pause
+		\begin{itemize}
+			\item Google Chubby
+			\pause
+			\item Apache ZooKeeper
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\section{Алгоритм}
+
+\begin{frame}[fragile]
+	\begin{block}{Apache Cassandra}
+	\pause
+		\begin{itemize}
+			\item Распределенная и отказоустойчивая
+			\pause
+			\item Разреженная таблица
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+	\begin{block}{Существующий алгоритм}
+	\pause
+		\begin{itemize}
+			\item Борьба за блокировку посредством записи и чтения ячеек в строке Cassandra
+			\pause
+			\item Непредсказуемый порядок захвата блокировок при повышении количества конкурирующих потоков
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+	\begin{block}{Новый алгоритм}
+	\pause
+		\begin{itemize}
+			\item Потоки выстраиваются в очередь в строке Cassandra
+			\pause
+			\item Захватывают блокировку в порядке этой очереди
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+	\begin{block}{}
+		\begin{itemize}
+			\item Алгоритм реализован на C\#
+			\pause
+			\item Проведено модульное и нагрузочное тестирование
+			\pause
+			\item Проведено сравнение производительности со старым алгоритмом
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+	\begin{block}{Результаты сравнения производительности}
+		\begin{itemize}
+			\pause
+			\item Среднее время ожидания не ухудшилось
+			\pause
+			\item Потоки захватывают блокировки равномерно
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+	\begin{figure}[h!]
+	  \caption{Моменты взятия блокировок старым алгоритмом}
+	  \centering
+	    \includegraphics[height=7cm]{5_old.png}
+	\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+	\begin{figure}[h!]
+	  \caption{Моменты взятия блокировок новым алгоритмом}
+	  \centering
+	    \includegraphics[height=7cm]{5_new.png}
+	\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+	\begin{block}{Планы на будущее}
+		\begin{itemize}
+			\pause
+			\item Внедрение нового алгоритма в проект
+			\pause
+			\item Исследование возможностей новых версий Cassandra
+		\end{itemize}
+	\end{block}
+\end{frame}
 \end{document}
