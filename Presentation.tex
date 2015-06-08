@@ -40,51 +40,13 @@
 \titlepage
 \end{frame}
 
-\section{Блокировка}
+\section{Задача распределенной блокировки}
 
 \begin{frame}[fragile]
-	\begin{block}{Снятие денег с банковского счета}
-		\begin{lstlisting}[language=Java]
-   Узнать текущий баланс
-   Если баланс больше или равен запрашиваемой сумме:
-   	Уменьшить баланс на запрашиваемую сумму
-   	Сообщить об успешном проведении операции
-   Иначе:
-   	Сообщить о том, что средств недостаточно
-		\end{lstlisting}
-	\end{block}
-\end{frame}
-
-\begin{frame}[fragile]
-	\begin{block}{Механизм блокировки}
-		\begin{itemize}
-			\pause
-			\item Предоставление исключительного доступа к разделяемому ресурсу для множества потоков
-			\pause
-			\item Реализован в большинстве современных языков программирования в рамках одного процесса
-		\end{itemize}
-	\end{block}
-\end{frame}
-
-\section{Распределенная блокировка}
-
-\begin{frame}[fragile]
-	\begin{block}{Распределенная система}
-	\pause
-		\begin{itemize}
-			\item Существует множество серверов, на которых запущены компоненты системы
-			\pause
-			\item Механизмы, реализованные в языках программирования, не подходят
-		\end{itemize}
-	\end{block}
-\end{frame}
-
-\begin{frame}[fragile]
-	\begin{block}{}
-		\begin{center}
-			Необходим механизм предоставления исключительного доступа с разных серверов
-		\end{center}
-	\end{block}
+	\begin{figure}[h!]
+	  \centering
+	    \includegraphics[height=7cm]{concurrency.png}
+	\end{figure}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -113,7 +75,7 @@
 	\end{block}
 \end{frame}
 
-\section{Алгоритм}
+\section{Старый алгоритм}
 
 \begin{frame}[fragile]
 	\begin{block}{Старый алгоритм}
@@ -122,11 +84,22 @@
 			\item Использует особенности хранения разреженной таблицы в Cassandra
 			\pause
 			\item Корректно решает поставленную задачу
-			\pause
-			\item Неравномерно распределяет блокировки между потоками
 		\end{itemize}
 	\end{block}
 \end{frame}
+
+\begin{frame}[fragile]
+	\begin{block}{Недостатки}
+	\pause
+		\begin{itemize}
+			\item Неравномерное распределение блокировки между потоками
+			\pause
+			\item Большое время захвата блокировки при конкурентности
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\section{Новый алгоритм}
 
 \begin{frame}[fragile]
 	\begin{block}{Новый алгоритм}
@@ -137,8 +110,6 @@
 			\item Выстраивает потоки в очередь в строке
 			\pause
 			\item Распределяет блокировку между потоками в порядке этой очереди
-			\pause
-			\item Не ухудшил производительность
 			\pause
 			\item Корректно решает поставленную задачу
 		\end{itemize}
@@ -153,17 +124,6 @@
 			\item Проведено модульное и нагрузочное тестирование
 			\pause
 			\item Проведено сравнение производительности со старым алгоритмом
-		\end{itemize}
-	\end{block}
-\end{frame}
-
-\begin{frame}[fragile]
-	\begin{block}{Результаты сравнения производительности}
-		\begin{itemize}
-			\pause
-			\item Среднее время ожидания освобождения блокировки не ухудшилось
-			\pause
-			\item Потоки захватывают блокировки равномерно
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -186,7 +146,7 @@
 
 \begin{frame}[fragile]
 	\begin{figure}[h!]
-	  \caption{Время взятия мягкой блокировки}
+	  \caption{Время взятия блокировки}
 	  \centering
 	    \includegraphics[height=7cm]{queue_like.png}
 	\end{figure}
